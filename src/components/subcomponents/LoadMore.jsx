@@ -1,40 +1,32 @@
 import { useState, useContext } from "react";
 import { ProductHomeContext } from "../contexts/ProductProvider";
 
-const perColumn = 4;
+const perLoad = 2;
 
 export default function LoadMore() {
-  const { productsHome } = useContext(ProductHomeContext);
+  const { productsHome, setProductsHome } = useContext(ProductHomeContext);
   const [data, setData] = useState([]);
   const [sortOrder, setSortOrder] = useState("asc");
-  const [next, setNext] = useState(perColumn);
-
-  // useEffect(() => {
-  //   const fetchItems = async () => {
-  //     const response = await axios.get("http://localhost:2300/allproducts");
-  //     setData(response.data);
-  //   };
-  //   fetchItems();
-  // }, []);
+  const [next, setNext] = useState(perLoad);
 
   const handleDelete = (id) => {
     console.log("deleted", id);
   };
 
   const handleSort = () => {
-    const sortedData = [...data].sort((a, b) => {
+    const sortedData = [...productsHome].sort((a, b) => {
       if (sortOrder === "asc") {
         return a.price - b.price;
       } else {
         return b.price - a.price;
       }
     });
-    setData(sortedData);
+    setProductsHome(sortedData);
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
 
   const handleNext = () => {
-    setNext(next + perColumn);
+    setNext(next + perLoad);
   };
 
   return (
@@ -57,7 +49,7 @@ export default function LoadMore() {
           </tr>
         </thead>
         <tbody>
-          {productsHome.slice(3, next).map((product) => (
+          {productsHome.slice(0, next).map((product) => (
             <tr key={product.id}>
               <td>
                 <img
@@ -85,10 +77,25 @@ export default function LoadMore() {
           ))}
         </tbody>
       </table>
-      {/* {next < data.length && <button onClick={handleNext}>Load More</button>} */}
-      <button onClick={handleNext} className="loadmore">
-        Load More
-      </button>
+      {next < productsHome.length ? (
+        <button onClick={handleNext} className="loadmore">
+          Load More
+        </button>
+      ) : (
+        <button onClick={() => setNext(perLoad)} className="loadmore">
+          Load Less
+        </button>
+      )}
     </div>
   );
 }
+{
+  /* {next < data.length && <button onClick={handleNext}>Load More</button>} */
+}
+// useEffect(() => {
+//   const fetchItems = async () => {
+//     const response = await axios.get("http://localhost:2300/allproducts");
+//     setData(response.data);
+//   };
+//   fetchItems();
+// }, []);

@@ -1,36 +1,32 @@
 import { useContext, useState } from "react";
 import "../../style/allproducts.css";
 import { ProductHomeContext } from "../contexts/ProductProvider";
-
+import axios from "axios";
 export default function AllProducts() {
-  const { productsHome } = useContext(ProductHomeContext);
+  const { productsHome, setProductsHome } = useContext(ProductHomeContext);
   const [data, setData] = useState([]);
   const [sortOrder, setSortOrder] = useState("asc");
 
-  // useEffect(() => {
-  //   const fetchItems = async () => {
-  //     const response = await axios.get("http://localhost:2300/allproducts");
-  //     setData(response.data);
-  //   };
-  //   fetchItems();
-  // }, []);
-
-  const handleDelete = (id) => {
-    console.log("deleted", id);
+  const handleDelete = async (id) => {
+    console.log("Delete", id);
+    try {
+      await axios.delete(`http://localhost:2300/products/${id}`);
+      setData(data.filter((product) => product.id !== id));
+    } catch (error) {
+      console.log(error);
+    }
   };
-
-  // const handleSort = () => {
-  //   const sortedData = [...data].sort((a, b) => {
-  //     if (sortOrder === "asc") {
-  //       return a.price - b.price;
-  //     } else {
-  //       return b.price - a.price;
-  //     }
-  //   });
-  //   setData(sortedData);
-  //   setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-  // };
-
+  const handleSort = () => {
+    const sortedData = [...productsHome].sort((a, b) => {
+      if (sortOrder === "asc") {
+        return a.price - b.price;
+      } else {
+        return b.price - a.price;
+      }
+    });
+    setProductsHome(sortedData);
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+  };
   return (
     <div className="allprod">
       <table>
@@ -40,9 +36,9 @@ export default function AllProducts() {
             <th>Name</th>
             <th>
               Price{" "}
-              {/* <span onClick={handleSort}>
+              <span onClick={handleSort}>
                 {sortOrder === "asc" ? "▲" : "▼"}
-              </span> */}
+              </span>
             </th>
             <th>Brand</th>
             <th>Category</th>
@@ -83,3 +79,21 @@ export default function AllProducts() {
     </div>
   );
 }
+// useEffect(() => {
+//   const fetchItems = async () => {
+//     const response = await axios.get("http://localhost:2300/allproducts");
+//     setData(response.data);
+//   };
+//   fetchItems();
+// }, []);
+// const handleSort = () => {
+//   const sortedData = [...data].sort((a, b) => {
+//     if (sortOrder === "asc") {
+//       return a.price - b.price;
+//     } else {
+//       return b.price - a.price;
+//     }
+//   });
+//   setData(sortedData);
+//   setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+// };

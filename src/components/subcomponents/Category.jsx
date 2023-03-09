@@ -1,54 +1,34 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { ProductHomeContext } from "../contexts/ProductProvider";
-import navigate from "navigate";
+// import { navigate } from "navigate";
+import "../../style/category.css";
+
 export default function Category() {
   const { productsHome } = useContext(ProductHomeContext);
-  const [filtredData, setFiltredData] = useState(null);
+  const categories = [
+    ...new Set(productsHome.map((product) => product.category)),
+  ];
 
-  function filterData(dataType) {
-    return productsHome.filter((type) => type.category === dataType);
+  function handleCategoryClick(category) {
+    // navigate(`/category/${category}`);
   }
-  useEffect(() => {
-    setFiltredData(productsHome);
-  }, []);
 
-  function handlePokemon(e) {
-    let typePokemon = e.target.value;
-    typePokemon !== "all"
-      ? setFiltredData(filterData(typePokemon))
-      : setFiltredData(productsHome);
-  }
   return (
-    <div>
-      {/* {" "}
-      {productsHome.map((product, i) => (
-        // <tr key={product.id}>
-        <tr key={i}>
-          <td>
-            <img
-              src={product.imageUrl}
-              alt="imageall"
-              width={150}
-              height={150}
-            />
-          </td>
-
-          <td> {product.category}</td>
-        </tr>
-      ))} */}
-      <div className="nav">
-        {filtredData ? (
-          <div className="blog-container">
-            {filtredData.map((productData, i) => (
-              <div className="blog-post" key={i}>
-                <p className="description">{productData.category}</p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="loading">Loading...</div>
-        )}
-      </div>
+    <div className="nav">
+      {categories.map((category, i) => (
+        <button key={i} onClick={() => handleCategoryClick(category)}>
+          {category}
+          <img
+            src={
+              productsHome.filter((product) => product.category === category)[0]
+                .imageUrl
+            }
+            alt={`${category}-image`}
+            width={150}
+            height={150}
+          />
+        </button>
+      ))}
     </div>
   );
 }
