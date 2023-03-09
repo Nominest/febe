@@ -15,8 +15,6 @@ export default function ProdAbout() {
         <Route path={MENUS[2].url} element={<Category />}></Route>
         <Route path={MENUS[3].url} element={<Brand />}></Route>
         <Route path={MENUS[4].url} element={<Add />}></Route>
-        {/* <Route path={MENUS[5].url} element={<Settings />}></Route> */}
-        {/* <Route path={`/add`} element={<Add />}></Route> */}
       </Routes>
     </div>
   );

@@ -1,34 +1,35 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import "../../style/allproducts.css";
+import { ProductHomeContext } from "../contexts/ProductProvider";
 
 export default function AllProducts() {
+  const { productsHome } = useContext(ProductHomeContext);
   const [data, setData] = useState([]);
   const [sortOrder, setSortOrder] = useState("asc");
 
-  useEffect(() => {
-    const fetchItems = async () => {
-      const response = await axios.get("http://localhost:2300/allproducts");
-      setData(response.data);
-    };
-    fetchItems();
-  }, []);
+  // useEffect(() => {
+  //   const fetchItems = async () => {
+  //     const response = await axios.get("http://localhost:2300/allproducts");
+  //     setData(response.data);
+  //   };
+  //   fetchItems();
+  // }, []);
 
   const handleDelete = (id) => {
     console.log("deleted", id);
   };
 
-  const handleSort = () => {
-    const sortedData = [...data].sort((a, b) => {
-      if (sortOrder === "asc") {
-        return a.price - b.price;
-      } else {
-        return b.price - a.price;
-      }
-    });
-    setData(sortedData);
-    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-  };
+  // const handleSort = () => {
+  //   const sortedData = [...data].sort((a, b) => {
+  //     if (sortOrder === "asc") {
+  //       return a.price - b.price;
+  //     } else {
+  //       return b.price - a.price;
+  //     }
+  //   });
+  //   setData(sortedData);
+  //   setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+  // };
 
   return (
     <div className="allprod">
@@ -39,9 +40,9 @@ export default function AllProducts() {
             <th>Name</th>
             <th>
               Price{" "}
-              <span onClick={handleSort}>
+              {/* <span onClick={handleSort}>
                 {sortOrder === "asc" ? "▲" : "▼"}
-              </span>
+              </span> */}
             </th>
             <th>Brand</th>
             <th>Category</th>
@@ -50,8 +51,9 @@ export default function AllProducts() {
           </tr>
         </thead>
         <tbody>
-          {data.map((product) => (
-            <tr key={product.id}>
+          {productsHome.map((product, i) => (
+            // <tr key={product.id}>
+            <tr key={i}>
               <td>
                 <img
                   src={product.imageUrl}
@@ -67,7 +69,12 @@ export default function AllProducts() {
               <td> {product.sale}</td>
               <td>
                 Edit /{" "}
-                <span onClick={() => handleDelete(product.id)}>Delete</span>
+                <span
+                  onClick={() => handleDelete(product.id)}
+                  className="delete"
+                >
+                  Delete
+                </span>
               </td>
             </tr>
           ))}

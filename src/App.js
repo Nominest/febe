@@ -1,9 +1,12 @@
 import Main from "./components/Main";
 import "./index.css";
+import { ProductProvider } from "./components/contexts/ProductProvider";
 function App() {
   return (
     <div className="App">
-      <Main />
+      <ProductProvider>
+        <Main />
+      </ProductProvider>
     </div>
   );
 }
