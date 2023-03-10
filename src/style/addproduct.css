@@ -1,0 +1,15 @@
+.addproduct form {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.addproduct div,
+input,
+select,
+option {
+  width: 50%;
+}
+
+.addproduct div {
+  margin: 10px;
+}

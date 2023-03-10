@@ -1,6 +1,8 @@
 import { useState, useContext } from "react";
 import { ProductHomeContext } from "../contexts/ProductProvider";
 import { v4 as uuid } from "uuid";
+import "../../style/addproduct.css";
+
 export default function Add() {
   const { productsHome, setProductsHome } = useContext(ProductHomeContext);
   const unique_id = uuid();
@@ -29,44 +31,47 @@ export default function Add() {
     setCategory("");
     setBrand("");
     setSale("");
-    console.log("addwed", small_id);
+    console.log("added", small_id);
   };
 
   return (
-    <div>
-      <h2>Add Product</h2>
+    <div className="addproduct">
       <form>
         <div>
-          <label htmlFor="name">Name:</label>
+          {/* <label htmlFor="name">Name:</label> */}
           <input
             type="text"
+            placeholder="Name"
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor="price">Price:</label>
+          {/* <label htmlFor="price">Price:</label> */}
           <input
             type="number"
             id="price"
+            placeholder="Price"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor="imageUrl">Image URL:</label>
+          {/* <label htmlFor="imageUrl">Image URL:</label> */}
           <input
             type="text"
             id="imageUrl"
+            placeholder="Image URL"
             value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor="category">Category:</label>
+          {/* <label htmlFor="category">Category:</label> */}
           <select
             id="category"
+            placeholder="Category"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
@@ -79,7 +84,7 @@ export default function Add() {
           </select>
         </div>
         <div>
-          <label htmlFor="brand">Brand:</label>
+          {/* <label htmlFor="brand">Brand:</label> */}
           <select
             id="brand"
             value={brand}
@@ -94,18 +99,31 @@ export default function Add() {
           </select>
         </div>
         <div>
-          <label htmlFor="sale">Sale:</label>
+          {/* <label htmlFor="sale">Sale:</label> */}
           <input
             type="number"
             id="sale"
+            placeholder="Sale"
             value={sale}
             onChange={(e) => setSale(e.target.value)}
           />
         </div>
-        <button type="button" onClick={handleAddProduct}>
+        <button type="button" onClick={handleAddProduct} className="addbtn">
           Add Product
         </button>
       </form>
+      <div>
+        {/* <label htmlFor="name">Name:</label> */}
+        {/* <input type="text" placeholder="Add category" id="name" value={add} /> */}
+        <input type="text" name="" id="" placeholder="add category" />
+        <button>Add Category</button>
+      </div>
+      <div>
+        {/* <label htmlFor="name">Name:</label> */}
+        {/* <input type="text" placeholder="Add category" id="name" value={add} /> */}
+        <input type="text" name="" id="" placeholder="add brand" />
+        <button>Add Brand</button>
+      </div>
     </div>
   );
 }

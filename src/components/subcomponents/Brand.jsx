@@ -8,7 +8,7 @@ export default function Brand() {
   const brands = [...new Set(productsHome.map((product) => product.brand))];
 
   function handleBrandClick(brand) {
-    navigate(`/products?brand=${brand}`);
+    // navigate(`/products?brand=${brand}`);
   }
 
   return (

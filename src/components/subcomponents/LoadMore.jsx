@@ -1,7 +1,8 @@
 import { useState, useContext } from "react";
 import { ProductHomeContext } from "../contexts/ProductProvider";
+import axios from "axios";
 
-const perLoad = 2;
+const perLoad = 1;
 
 export default function LoadMore() {
   const { productsHome, setProductsHome } = useContext(ProductHomeContext);
@@ -9,8 +10,14 @@ export default function LoadMore() {
   const [sortOrder, setSortOrder] = useState("asc");
   const [next, setNext] = useState(perLoad);
 
-  const handleDelete = (id) => {
-    console.log("deleted", id);
+  const handleDelete = async (id) => {
+    console.log("Delete", id);
+    try {
+      await axios.delete(`http://localhost:2300/products/${id}`);
+      setData(data.filter((product) => product.id !== id));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleSort = () => {
@@ -37,7 +44,7 @@ export default function LoadMore() {
             <th>Image</th>
             <th>Name</th>
             <th>
-              Price{" "}
+              Price
               <span onClick={handleSort}>
                 {sortOrder === "asc" ? "▲" : "▼"}
               </span>
@@ -63,9 +70,9 @@ export default function LoadMore() {
               <td> {product.price + "$"}</td>
               <td> {product.brand}</td>
               <td> {product.category}</td>
-              <td> {product.sale}</td>
+              <td>{product.sale > 0 ? product.sale + "%" : console.log("")}</td>
               <td>
-                Edit /{" "}
+                Edit /
                 <span
                   onClick={() => handleDelete(product.id)}
                   className="delete"

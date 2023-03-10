@@ -16,6 +16,7 @@ export default function AllProducts() {
       console.log(error);
     }
   };
+
   const handleSort = () => {
     const sortedData = [...productsHome].sort((a, b) => {
       if (sortOrder === "asc") {
@@ -27,6 +28,7 @@ export default function AllProducts() {
     setProductsHome(sortedData);
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
+
   return (
     <div className="allprod">
       <table>
@@ -62,7 +64,7 @@ export default function AllProducts() {
               <td> {product.price + "$"}</td>
               <td> {product.brand}</td>
               <td> {product.category}</td>
-              <td> {product.sale}</td>
+              <td>{product.sale > 0 ? product.sale + "%" : console.log("")}</td>
               <td>
                 Edit /{" "}
                 <span
